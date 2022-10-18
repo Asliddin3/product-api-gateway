@@ -1,0 +1,379 @@
+basePath: /v1
+definitions:
+  product.Address:
+    properties:
+      district:
+        type: string
+      street:
+        type: string
+    type: object
+  product.Category:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  product.CategoryRequest:
+    properties:
+      name:
+        type: string
+    type: object
+  product.GetProductId:
+    properties:
+      id:
+        type: integer
+    type: object
+  product.Product:
+    properties:
+      categoryid:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: integer
+      typeid:
+        type: integer
+    type: object
+  product.ProductFullInfo:
+    properties:
+      categoryid:
+        type: integer
+      name:
+        type: string
+      price:
+        type: integer
+      stores:
+        items:
+          $ref: '#/definitions/product.Store'
+        type: array
+      typeid:
+        type: integer
+    type: object
+  product.ProductFullInfoResponse:
+    properties:
+      categoryid:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: integer
+      stores:
+        items:
+          $ref: '#/definitions/product.Store'
+        type: array
+      typeid:
+        type: integer
+    type: object
+  product.ProductRequest:
+    properties:
+      categoryid:
+        type: integer
+      name:
+        type: string
+      price:
+        type: integer
+      typeid:
+        type: integer
+    type: object
+  product.ProductResponse:
+    properties:
+      category:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: integer
+      type:
+        type: string
+    type: object
+  product.Products:
+    properties:
+      products:
+        items:
+          $ref: '#/definitions/product.ProductResponse'
+        type: array
+    type: object
+  product.Store:
+    properties:
+      addresses:
+        items:
+          $ref: '#/definitions/product.Address'
+        type: array
+      name:
+        type: string
+    type: object
+  product.Type:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  product.TypeRequest:
+    properties:
+      name:
+        type: string
+    type: object
+  store.Address:
+    properties:
+      district:
+        type: string
+      street:
+        type: string
+    type: object
+  store.AddressResp:
+    properties:
+      district:
+        type: string
+      id:
+        type: integer
+      street:
+        type: string
+    type: object
+  store.StoreRequest:
+    properties:
+      addresses:
+        items:
+          $ref: '#/definitions/store.Address'
+        type: array
+      name:
+        type: string
+    type: object
+  store.StoreResponse:
+    properties:
+      addresses:
+        items:
+          $ref: '#/definitions/store.AddressResp'
+        type: array
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+host: localhost:8070
+info:
+  contact:
+    email: asliddinvstalim@gmail.com
+    name: Asliddin
+    url: https://t.me/asliddindeh
+  description: This is shopping server api server
+  termsOfService: not much usefull
+  title: Product api
+  version: "1.0"
+paths:
+  /product/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: this func delete products
+      parameters:
+      - description: Product
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/product.GetProductId'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+      summary: delete products
+      tags:
+      - product
+  /products:
+    post:
+      consumes:
+      - application/json
+      description: this func create products
+      parameters:
+      - description: Products
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/product.ProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/product.ProductResponse'
+      summary: create products
+      tags:
+      - product
+  /products/{id}:
+    get:
+      consumes:
+      - application/json
+      description: this func get products
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+      summary: get products
+      tags:
+      - product
+  /products/category:
+    post:
+      consumes:
+      - application/json
+      description: this func create category
+      parameters:
+      - description: Category
+        in: body
+        name: type
+        required: true
+        schema:
+          $ref: '#/definitions/product.CategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/product.Category'
+      summary: create category
+      tags:
+      - category
+  /products/fullinfo:
+    post:
+      consumes:
+      - application/json
+      description: this func create products with ful info
+      parameters:
+      - description: Products
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/product.ProductFullInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/product.ProductFullInfoResponse'
+      summary: create products with info
+      tags:
+      - product
+  /products/info:
+    get:
+      consumes:
+      - application/json
+      description: this func get all products
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/product.Products'
+      summary: get all products
+      tags:
+      - product
+  /products/type:
+    post:
+      consumes:
+      - application/json
+      description: this func create type
+      parameters:
+      - description: Type
+        in: body
+        name: type
+        required: true
+        schema:
+          $ref: '#/definitions/product.TypeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/product.Type'
+      summary: create type
+      tags:
+      - type
+  /products/update:
+    patch:
+      consumes:
+      - application/json
+      description: this func update product
+      parameters:
+      - description: Products
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/product.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/product.Product'
+      summary: update product
+      tags:
+      - product
+  /store:
+    post:
+      consumes:
+      - application/json
+      description: this func create store with ful info
+      parameters:
+      - description: Store
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/store.StoreRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/store.StoreResponse'
+      summary: create store
+      tags:
+      - store
+  /store/{id}:
+    get:
+      consumes:
+      - application/json
+      description: this func get store
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+      summary: get store
+      tags:
+      - store
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"
