@@ -1,12 +1,30 @@
-CURRENT_DIR=$(shell pwd)
-APP=template
-APP_CMD_DIR=./cmd
+pull_submodule:
+	git submodule update --init --recursive
 
-build:
-	CGO_ENABLED=0 GOOS=darwin go build -mod=vendor -a -installsuffix cgo -o ${CURRENT_DIR}/bin/${APP} ${APP_CMD_DIR}/main.go
+update_submodule:
+	git submodule update --remote --merge
 
-proto-gen:
-	./scripts/gen-proto.sh	${CURRENT_DIR}
+run:
+	go run cmd/main.go
 
-lint: ## Run golangci-lint with printing to stdout
-	golangci-lint -c .golangci.yaml run --build-tags "musl" ./...
+create_proto_submodule:
+	git submodule add git@github.com:Asliddin3/Proto-Submodule-Product-servise.git
+
+run_script:
+	./script/gen-proto.sh
+
+swag:
+	swag init -g ./api/router.go -o api/docs
+# user:
+    # go run home/go/src/gitlab.com/grpc-first/user_service/cmd/main.go
+	
+# product:
+# 	go run ~/go/src/gitlab.com/grpc-first/product-service/cmd/main.go 
+
+# payment:
+# 	go run ~/go/src/gitlab.com/grpc-first/payment-service/cmd/main.go 
+
+# store:
+# 	go run ~/go/src/gitlab.com/grpc-first/store-service/cmd/main.go 
+
+	

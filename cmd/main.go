@@ -5,7 +5,6 @@ import (
 	"github.com/Asliddin3/product-api-gateway/config"
 	"github.com/Asliddin3/product-api-gateway/pkg/logger"
 	"github.com/Asliddin3/product-api-gateway/services"
-
 	// _ "github.com/swaggo/swag/example/celler/docs"
 )
 
